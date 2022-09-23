@@ -11,6 +11,8 @@ Widget addNoteField({
         keyboardType: type,
         maxLines: lines,
         decoration: InputDecoration(
+          alignLabelWithHint: true,
+          isDense: true,
           border: const OutlineInputBorder(
               borderRadius: BorderRadius.only(topLeft: Radius.circular(15), bottomRight: Radius.circular(15),)
           ),

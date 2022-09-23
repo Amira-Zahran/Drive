@@ -70,7 +70,7 @@ class _SignUpState extends State<SignUp> {
                                   SizedBox(
                                     width: 95,
                                     child: DropdownButton<String>(
-                                        value: mySignUp.grade,
+                                        value: mySignUp.grade.toString(),
                                         items:  mySignUp.gradeModel?.data?.map((value) {
                                           return DropdownMenuItem<String>(
                                             value: value.grade,
@@ -84,18 +84,20 @@ class _SignUpState extends State<SignUp> {
                               Column(
                                 children: [
                                   const Text('University',style: TextStyle(fontWeight: FontWeight.bold)),
+/*
                                   SizedBox(
                                     width: 95,
                                     child: DropdownButton<String>(
-                                        value: mySignUp.grade,
-                                        items:  mySignUp.gradeModel?.data?.map((value) {
+                                        value: mySignUp.grade.toString(),
+                                        items:  mySignUp.universityItems.map((value) {
                                           return DropdownMenuItem<String>(
-                                            value: value.grade,
-                                            child: Text(value.grade!),
+                                            value: value.grade.toString(),
+                                            child: Text(value.grade!.toString()),
                                           );
                                         }).toList(),
-                                        onChanged:(value)=>mySignUp.changeUniversity(value!) ),
+                                        onChanged:(value)=>mySignUp.changeUniversity(value!.toString()) ),
                                   ),
+*/
                                 ],
                               ),
                             ],
@@ -103,17 +105,29 @@ class _SignUpState extends State<SignUp> {
                           Column(
                             children: [
                               const Text('Grade',style: TextStyle(fontWeight: FontWeight.bold)),
-                              SizedBox(
-                                width: 95,
-                                child: DropdownButton<String>(
-                                    value: mySignUp.grade,
-                                    items:  mySignUp.gradeModel?.data?.map((value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value.grade,
-                                        child: Text(value.grade!),
-                                      );
-                                    }).toList(),
-                                    onChanged:(value)=>mySignUp.changeGrade(value!) ),
+                              Center(
+                                child: Container(
+                                  padding: EdgeInsets.only(left: 5),
+                                  alignment: Alignment.center,
+                                  width: 200,
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                      color: Colors.deepOrange,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: DropdownButton<String>(
+                                      value: mySignUp.grade,
+                                      items:  mySignUp.gradeModel?.data?.map((value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value.grade,
+                                          child: Text(value.grade!),
+                                        );
+                                      }).toList(),
+                                      onChanged:(value)=> mySignUp.changeGrade(value!) ),
+                                ),
                               ),
                             ],
                           )
@@ -167,4 +181,15 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
+
+  DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
+    value: item,
+    child: Text(
+      item,
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 20,
+      ),
+    ),
+  );
 }

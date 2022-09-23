@@ -1,11 +1,12 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:odc_drive_design_pattren/view/pages/auth/login.dart';
 import 'package:odc_drive_design_pattren/view/pages/settings/our_partners.dart';
 import 'package:odc_drive_design_pattren/viewmodel/bloc/states.dart';
 import '../../../viewmodel/bloc/settings/settings_cubit.dart';
 import '../../components/core/components/components.dart';
-import 'FQA.dart';
+import 'FAQs.dart';
 import 'support.dart';
 import 'terms&conditions.dart';
 
@@ -85,9 +86,11 @@ class Settings extends StatelessWidget {
                       desc:
                       'Are You Sure ?',
                       btnOkOnPress: () {
-                        debugPrint('Cancel');
+                        navigateTo(context, Login());
                       },
-                      btnCancelOnPress: () {},
+                      btnCancelOnPress: () {
+
+                      },
                       //btnOkIcon: Icons.check_circle,
                     ).show();
                   },

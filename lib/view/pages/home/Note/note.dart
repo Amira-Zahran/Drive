@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:odc_drive_design_pattren/viewmodel/bloc/note/note_cubit.dart';
 import 'package:odc_drive_design_pattren/viewmodel/bloc/states.dart';
-
-import '../../components/core/components/components.dart';
-import '../navigate/bottom_navigation_bar.dart';
+import '../../../../viewmodel/bloc/home/note/note_cubit.dart';
+import '../../../components/core/components/components.dart';
+import '../../navigate/bottom_navigation_bar.dart';
 import 'add_note.dart';
 
 class Note extends StatelessWidget {

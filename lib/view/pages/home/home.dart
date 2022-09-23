@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:odc_drive_design_pattren/view/components/core/components/components.dart';
-import 'package:odc_drive_design_pattren/view/pages/Note/note.dart';
-import 'package:odc_drive_design_pattren/view/pages/home/midterms.dart';
+import 'Note/note.dart';
 import 'finals.dart';
 import 'lecutres.dart';
+import 'midterms.dart';
 import 'sections.dart';
 
 class Home extends StatelessWidget {
@@ -37,7 +38,9 @@ class Home extends StatelessWidget {
                           CircleAvatar(
                             backgroundColor: Colors.grey[300],
                             radius: 30,
-                            child: const Icon(Icons.label),
+                            child: SvgPicture.asset(
+                              'assets/icons/lecture.svg',
+                            ),
                           ),
                           const SizedBox(
                             height: 10,
@@ -71,7 +74,9 @@ class Home extends StatelessWidget {
                           CircleAvatar(
                             backgroundColor: Colors.grey[300],
                             radius: 30,
-                            child: const Icon(Icons.label),
+                            child: SvgPicture.asset(
+                              'assets/icons/sections.svg',
+                            ),
                           ),
                           const SizedBox(
                             height: 10,
@@ -93,7 +98,7 @@ class Home extends StatelessWidget {
                   padding: const EdgeInsetsDirectional.all(15),
                   child: InkWell(
                     onTap: () {
-                      navigateTo(context, Midterms());
+                      navigateTo(context, const Midterms());
                     },
                     borderRadius: BorderRadius.circular(20),
                     child: Card(
@@ -105,7 +110,9 @@ class Home extends StatelessWidget {
                           CircleAvatar(
                             backgroundColor: Colors.grey[300],
                             radius: 30,
-                            child: const Icon(Icons.label),
+                            child: SvgPicture.asset(
+                              'assets/icons/midterm.svg',
+                            ),
                           ),
                           const SizedBox(
                             height: 10,
@@ -139,7 +146,9 @@ class Home extends StatelessWidget {
                           CircleAvatar(
                             backgroundColor: Colors.grey[300],
                             radius: 30,
-                            child: const Icon(Icons.label),
+                            child: SvgPicture.asset(
+                              'assets/icons/final.svg',
+                            ),
                           ),
                           const SizedBox(
                             height: 10,
@@ -173,7 +182,9 @@ class Home extends StatelessWidget {
                           CircleAvatar(
                             backgroundColor: Colors.grey[300],
                             radius: 30,
-                            child: const Icon(Icons.label),
+                            child: SvgPicture.asset(
+                              'assets/icons/event.svg',
+                            ),
                           ),
                           const SizedBox(
                             height: 10,
@@ -195,7 +206,7 @@ class Home extends StatelessWidget {
                   padding: const EdgeInsetsDirectional.all(15),
                   child: InkWell(
                     onTap: () {
-                      navigateTo(context, Note());
+                      navigateTo(context, const Note());
                     },
                     borderRadius: BorderRadius.circular(20),
                     child: Card(
@@ -207,7 +218,9 @@ class Home extends StatelessWidget {
                           CircleAvatar(
                             backgroundColor: Colors.grey[300],
                             radius: 30,
-                            child: const Icon(Icons.label),
+                            child: SvgPicture.asset(
+                              'assets/icons/notes.svg',
+                            ),
                           ),
                           const SizedBox(
                             height: 10,

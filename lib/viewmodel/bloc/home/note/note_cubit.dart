@@ -11,4 +11,5 @@ class NoteCubit extends Cubit<CubitState>{
   TextEditingController dateController = TextEditingController();
   TextEditingController noteController = TextEditingController();
 
+
 }

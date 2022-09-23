@@ -1,25 +1,25 @@
-class SectionModel {
+class SectionsModel {
   String? code;
   String? message;
   List<Data>? data;
 
-  SectionModel({this.code, this.message, this.data});
+  SectionsModel({this.code, this.message, this.data});
 
-  SectionModel.fromJson(Map<String, dynamic> json) {
+  SectionsModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['code'] = code;
-    data['message'] = message;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['code'] = this.code;
+    data['message'] = this.message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -50,12 +50,12 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = id;
-    data['sectionSubject'] = sectionSubject;
-    data['sectionDate'] = sectionDate;
-    data['sectionStartTime'] = sectionStartTime;
-    data['sectionEndTime'] = sectionEndTime;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['sectionSubject'] = this.sectionSubject;
+    data['sectionDate'] = this.sectionDate;
+    data['sectionStartTime'] = this.sectionStartTime;
+    data['sectionEndTime'] = this.sectionEndTime;
     return data;
   }
 }

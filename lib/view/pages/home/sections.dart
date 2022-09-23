@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:odc_drive_design_pattren/view/components/core/components/components.dart';
+import 'package:odc_drive_design_pattren/viewmodel/bloc/home/home_cubit.dart';
 import 'package:odc_drive_design_pattren/viewmodel/bloc/states.dart';
-import '../../../viewmodel/bloc/home/section_cubit.dart';
 import '../navigate/bottom_navigation_bar.dart';
 
 class Sections extends StatelessWidget {
@@ -12,12 +12,11 @@ class Sections extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) { return SectionCubit()..getSections(); },
-      child: BlocConsumer<SectionCubit, CubitState>(
+      create: (BuildContext context) { return HomeCubit()..getData(); },
+      child: BlocConsumer<HomeCubit, CubitState>(
         listener: (BuildContext context, Object? state) {  },
         builder: (BuildContext context, state) {
-          SectionCubit mySections = SectionCubit.get(context);
-
+          HomeCubit mySections = HomeCubit.get(context);
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.white,
@@ -28,7 +27,7 @@ class Sections extends StatelessWidget {
             ),
             body: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: mySections.sectionModel == null ? const Center(child: CircularProgressIndicator(),)  : ListView.separated(
+              child: mySections.sectionModel == null ? const Center(child: CircularProgressIndicator(color: Colors.deepOrange,),)  : ListView.separated(
                 shrinkWrap: true,
                 separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 10,); },
                 itemCount: mySections.sectionModel!.data!.length,

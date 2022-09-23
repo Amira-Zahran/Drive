@@ -16,7 +16,7 @@ class Lectures extends StatelessWidget {
       child: BlocConsumer<HomeCubit, CubitState>(
         listener: (BuildContext context, Object? state) {  },
         builder: (BuildContext context, state) {
-          HomeCubit mySections = HomeCubit.get(context);
+          HomeCubit myLectures = HomeCubit.get(context);
 
           return Scaffold(
             appBar: AppBar(
@@ -28,10 +28,10 @@ class Lectures extends StatelessWidget {
             ),
             body: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: mySections.lectureModel == null ? const Center(child: CircularProgressIndicator(),)  : ListView.separated(
+              child: myLectures.lectureModel == null ? const Center(child: CircularProgressIndicator(color: Colors.deepOrange,),)  : ListView.separated(
                 shrinkWrap: true,
                 separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 10,); },
-                itemCount: mySections.lectureModel!.data!.length,
+                itemCount: myLectures.lectureModel!.data!.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Card(
                     shape: RoundedRectangleBorder(
@@ -46,7 +46,7 @@ class Lectures extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(mySections.lectureModel!.data![index].lectureSubject.toString(), style: const TextStyle(fontWeight: FontWeight.bold),),
+                              Text(myLectures.lectureModel!.data![index].lectureSubject.toString(), style: const TextStyle(fontWeight: FontWeight.bold),),
                               Row(
                                 children: const [
                                   Icon(Icons.timer,color: Colors.black54,),
@@ -63,11 +63,11 @@ class Lectures extends StatelessWidget {
                             children: [
                               Column(
                                 children: [
-                                  Text(mySections.lectureModel!.data![index].lectureDate.toString(), style: const TextStyle(color: Colors.grey),),
+                                  Text(myLectures.lectureModel!.data![index].lectureDate.toString(), style: const TextStyle(color: Colors.grey),),
                                   Row(
                                     children: [
                                       const Icon(Icons.calendar_month),
-                                      Text(mySections.lectureModel!.data![index].lectureDate.toString()),
+                                      Text(myLectures.lectureModel!.data![index].lectureDate.toString()),
                                     ],
                                   )
                                 ],
@@ -78,7 +78,7 @@ class Lectures extends StatelessWidget {
                                   Row(
                                     children: [
                                       const Icon(Icons.watch_later, color: Colors.greenAccent,),
-                                      Text(mySections.lectureModel!.data![index].lectureStartTime.toString()),
+                                      Text(myLectures.lectureModel!.data![index].lectureStartTime.toString()),
                                     ],
                                   )
                                 ],
@@ -89,7 +89,7 @@ class Lectures extends StatelessWidget {
                                   Row(
                                     children: [
                                       Icon(Icons.watch_later, color: Colors.pinkAccent[100],),
-                                      Text(mySections.lectureModel!.data![index].lectureEndTime.toString()),
+                                      Text(myLectures.lectureModel!.data![index].lectureEndTime.toString()),
                                     ],
                                   )
                                 ],

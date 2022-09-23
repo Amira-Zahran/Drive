@@ -32,7 +32,6 @@ class OurPartners extends StatelessWidget {
                 'Our Partners',
                 style: TextStyle(
                     fontWeight: FontWeight.w500,
-                    fontSize: 30,
                     color: Colors.black),
               ),
             ),

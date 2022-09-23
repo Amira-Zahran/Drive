@@ -3,21 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:odc_drive_design_pattren/view/components/core/components/components.dart';
 import 'package:odc_drive_design_pattren/viewmodel/bloc/states.dart';
 import '../../../viewmodel/bloc/home/home_cubit.dart';
-import '../../../viewmodel/bloc/home/section_cubit.dart';
 import '../navigate/bottom_navigation_bar.dart';
 
 class Midterms extends StatelessWidget {
-  Midterms({Key? key}) : super(key: key);
+  const Midterms({Key? key}) : super(key: key);
 
-  ScrollController controller = ScrollController();
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) { return HomeCubit()..getSections(); },
+      create: (BuildContext context) { return HomeCubit()..getMidterms(); },
       child: BlocConsumer<HomeCubit, CubitState>(
         listener: (BuildContext context, Object? state) {  },
         builder: (BuildContext context, state) {
-          HomeCubit mySections = HomeCubit.get(context);
+          HomeCubit myMidterms = HomeCubit.get(context);
 
           return Scaffold(
             appBar: AppBar(
@@ -29,10 +27,10 @@ class Midterms extends StatelessWidget {
             ),
             body: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: mySections.sectionModel == null ? const Center(child: CircularProgressIndicator(),)  : ListView.separated(
+              child: myMidterms.midtermsModel == null ? const Center(child: CircularProgressIndicator(color: Colors.deepOrange,),)  : ListView.separated(
                 shrinkWrap: true,
                 separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 10,); },
-                itemCount: mySections.sectionModel!.data!.length,
+                itemCount: myMidterms.midtermsModel!.data!.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Card(
                     shape: RoundedRectangleBorder(
@@ -47,7 +45,7 @@ class Midterms extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(mySections.sectionModel!.data![index].sectionSubject.toString(), style: const TextStyle(fontWeight: FontWeight.bold),),
+                              Text(myMidterms.midtermsModel!.data![index].examSubject.toString(), style: const TextStyle(fontWeight: FontWeight.bold),),
                               Row(
                                 children: const [
                                   Icon(Icons.timer,color: Colors.black54,),
@@ -64,11 +62,11 @@ class Midterms extends StatelessWidget {
                             children: [
                               Column(
                                 children: [
-                                  Text(mySections.sectionModel!.data![index].sectionDate!, style: const TextStyle(color: Colors.grey),),
+                                  Text(myMidterms.midtermsModel!.data![index].examDate!, style: const TextStyle(color: Colors.grey),),
                                   Row(
                                     children: [
                                       const Icon(Icons.calendar_month),
-                                      Text(mySections.sectionModel!.data![index].sectionDate.toString()),
+                                      Text(myMidterms.midtermsModel!.data![index].examDate.toString()),
                                     ],
                                   )
                                 ],
@@ -79,7 +77,7 @@ class Midterms extends StatelessWidget {
                                   Row(
                                     children: [
                                       const Icon(Icons.watch_later, color: Colors.greenAccent,),
-                                      Text(mySections.sectionModel!.data![index].sectionStartTime.toString()),
+                                      Text(myMidterms.midtermsModel!.data![index].examStartTime.toString()),
                                     ],
                                   )
                                 ],
@@ -90,7 +88,7 @@ class Midterms extends StatelessWidget {
                                   Row(
                                     children: [
                                       Icon(Icons.watch_later, color: Colors.pinkAccent[100],),
-                                      Text(mySections.sectionModel!.data![index].sectionEndTime.toString()),
+                                      Text(myMidterms.midtermsModel!.data![index].examEndTime.toString()),
                                     ],
                                   )
                                 ],

@@ -46,3 +46,10 @@ class ChangeGenderDropdownState extends CubitState {}
 class NavigationSuccessState extends CubitState{}
 
 class GetSectionsSuccess extends CubitState{}
+class GetLecturesSuccess extends CubitState{}
+class GetFinalsSuccess extends CubitState{}
+class GetMidtermsSuccess extends CubitState{}
+class GetNewsSuccess extends CubitState{}
+
+class GetFAQsSuccess extends CubitState{}
+class GetTermsSuccess extends CubitState{}
