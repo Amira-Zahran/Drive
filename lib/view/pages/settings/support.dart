@@ -68,7 +68,7 @@ class Support extends StatelessWidget {
                     const SizedBox(height: 40,),
                     ElevatedButton(onPressed: (){},
                       style: ElevatedButton.styleFrom(
-                          primary: Colors.deepOrange,
+                          backgroundColor: Colors.deepOrange,
                           fixedSize: const Size(320, 55),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12))), child: const Text('Submit', style: TextStyle(

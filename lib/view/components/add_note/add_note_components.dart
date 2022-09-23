@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 Widget addNoteField({
   required TextEditingController controller,
-  required TextInputType type,
+  TextInputType? type,
   required String text,
   int? lines,
 }) =>

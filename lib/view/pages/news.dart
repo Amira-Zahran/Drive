@@ -1,8 +1,13 @@
+
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:odc_drive_design_pattren/viewmodel/bloc/states.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../viewmodel/bloc/news_cubit.dart';
+
 
 class News extends StatelessWidget {
   const News({Key? key}) : super(key: key);
@@ -46,13 +51,23 @@ class News extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                IconButton(onPressed: (){}, icon: const Icon(Icons.share_outlined, color: Colors.white,)),
+                                IconButton(onPressed: () async{
+                                  final img = myNews.newsModel!.data![index].imageUrl;
+                                  final body = myNews.newsModel!.data![index].body;
+                                  final title = myNews.newsModel!.data![index].title;
+                                  if(myNews.newsModel!.data!.isNotEmpty){
+                                    await Share.share('$img $body $title');
+                                  }
+                                  }, icon: const Icon(Icons.share_outlined, color: Colors.white,)),
                                 Container(
                                   color: Colors.white,
                                   height: 30,
                                   width: 1,
                                 ),
-                                IconButton(onPressed: (){}, icon: const Icon(Icons.copy, color: Colors.white, size: 15,)),
+                                IconButton(onPressed: (){
+                                  FlutterClipboard.copy(myNews.newsModel!.data![index].toString());
+                                  Get.snackbar('Copy', 'News copied to clipboard');
+                                  }, icon: const Icon(Icons.copy, color: Colors.white, size: 15,)),
                               ],
                             ),)),
                       Positioned(

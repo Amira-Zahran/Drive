@@ -3,12 +3,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:odc_drive_design_pattren/model/auth/university_model.dart';
 import 'package:odc_drive_design_pattren/viewmodel/bloc/states.dart';
-import 'package:odc_drive_design_pattren/viewmodel/database/local/shared_prefrences/string/access.dart';
 import 'package:odc_drive_design_pattren/viewmodel/database/network/end_points.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../model/auth/grade_model.dart';
 import '../../../model/auth/sign_up_model.dart';
-import '../../database/local/shared_prefrences/preference_utils.dart';
 import '../../database/network/dio_helper.dart';
 
 class SignUpCubit extends Cubit<CubitState>{

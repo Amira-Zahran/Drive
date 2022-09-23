@@ -39,7 +39,7 @@ class FQA extends StatelessWidget {
             body: myFQA.faQsModel == null
                 ? const Center(child: CircularProgressIndicator(color: Colors.deepOrange,),)
                 : ListView.separated(
-                       separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 10,); },
+                       separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 10,); },
                        itemCount: myFQA.faQsModel!.data!.length,
                        itemBuilder: (BuildContext context, int index) { return Padding(
                          padding: const EdgeInsets.all(15.0),

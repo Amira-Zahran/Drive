@@ -134,7 +134,7 @@ class Home extends StatelessWidget {
                   padding: const EdgeInsetsDirectional.all(15),
                   child: InkWell(
                     onTap: () {
-                      navigateTo(context, Finals());
+                      navigateTo(context, const Finals());
                     },
                     borderRadius: BorderRadius.circular(20),
                     child: Card(

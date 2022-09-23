@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:odc_drive_design_pattren/view/pages/auth/signup.dart';
 import 'package:odc_drive_design_pattren/viewmodel/bloc/auth/Login_cubit.dart';
 import 'package:odc_drive_design_pattren/viewmodel/bloc/states.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../navigate/bottom_navigation_bar.dart';
 import '../../components/auth_components/auth_components.dart';
@@ -20,6 +23,16 @@ class Login extends StatelessWidget {
         listener: (BuildContext context, state) {
           if(state is LoginSuccessState /*|| state is GoogleAuthSucessState || state is FacebookAuthSucessState*/){
             navigateTo(context, const NavigationBottomBar());
+            Get.snackbar('Copy', 'Login Successfully');
+            showTopSnackBar(
+              context,
+              const CustomSnackBar.success(
+                message:
+                "Good job, your release is successful. Have a nice day",
+              ),
+            );
+          } else{
+
           }
         },
         builder: (BuildContext context, Object? state) {
@@ -54,7 +67,7 @@ class Login extends StatelessWidget {
                           myLogin.login();
                         },
                           style: ElevatedButton.styleFrom(
-                              primary: Colors.deepOrange,
+                              backgroundColor: Colors.deepOrange,
                               fixedSize: const Size(320, 55),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12))), child: const Text('Login', style: TextStyle(
@@ -80,7 +93,7 @@ class Login extends StatelessWidget {
                           ),
                           child: TextButton(
                             onPressed: (){
-                              navigateTo(context, const SignUp());
+                              navigateTo(context, SignUp());
                             },
                             child: const Text('Sign Up', style: TextStyle(
                               color: Colors.deepOrange,

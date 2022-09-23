@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:odc_drive_design_pattren/viewmodel/bloc/states.dart';
-
 import '../../../../viewmodel/bloc/home/note/note_cubit.dart';
+import '../../../../viewmodel/database/local/SQFLITE_DB/database.dart';
 import '../../../components/add_note/add_note_components.dart';
 import '../../../components/core/components/components.dart';
 import 'note.dart';
@@ -11,14 +10,15 @@ import 'note.dart';
 class AddNote extends StatelessWidget {
   const AddNote({Key? key}) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) { return NoteCubit(); },
-      child: BlocConsumer<NoteCubit, CubitState>(
+      child: BlocConsumer(
         listener: (BuildContext context, state) {  },
         builder: (BuildContext context, Object? state) {
-          NoteCubit myNote = NoteCubit.get(context);
+          NoteCubit myNotes = NoteCubit.get(context);
           return Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
@@ -43,16 +43,20 @@ class AddNote extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    addNoteField(type: TextInputType.text, controller: myNote.titleController, text: 'Title'),
+                    addNoteField(type: TextInputType.text, controller: myNotes.titleController, text: 'Title'),
                     const SizedBox(height: 25,),
-                    addNoteField(text: 'Date', type: TextInputType.text, controller: myNote.dateController, ),
+                    addNoteField(text: 'Date', controller: myNotes.dateController,),
                     const SizedBox(height: 25,),
-                    addNoteField(type: TextInputType.text, controller: myNote.noteController, text: 'Note', lines: 10),
+                    addNoteField(type: TextInputType.text, controller: myNotes.noteController, text: 'Note', lines: 10),
                     const SizedBox(height: 20,),
                     ElevatedButton(
-                      onPressed: (){},
+                      onPressed: (){
+                        SQLHelper.addNote(myNotes.titleController.text, myNotes.noteController.text, myNotes.dateController.text);
+                        myNotes.getNotesData();
+                        navigateTo(context, const Note());
+                      },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.blueGrey[200],
+                        backgroundColor: Colors.blueGrey[200],
                         fixedSize: const Size(90, 40),
                       ),
                       child: Row(
@@ -60,11 +64,9 @@ class AddNote extends StatelessWidget {
                         children: const [
                           Icon(Icons.add, color: Colors.black, size: 22,),
                           Text('Add', style: TextStyle(color: Colors.black, letterSpacing: 1, fontWeight: FontWeight.bold),),
-
                         ],
                       ),
                     )
-
                   ],
                 ),
               ),

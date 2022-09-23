@@ -6,7 +6,7 @@ import '../../../viewmodel/bloc/home/home_cubit.dart';
 import '../navigate/bottom_navigation_bar.dart';
 
 class Finals extends StatelessWidget {
-  Finals({Key? key}) : super(key: key);
+  const Finals({Key? key}) : super(key: key);
 
 
   @override

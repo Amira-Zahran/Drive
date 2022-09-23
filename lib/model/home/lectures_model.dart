@@ -11,15 +11,15 @@ class LectureModel {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['code'] = code;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -50,12 +50,12 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['lectureSubject'] = this.lectureSubject;
-    data['lectureDate'] = this.lectureDate;
-    data['lectureStartTime'] = this.lectureStartTime;
-    data['lectureEndTime'] = this.lectureEndTime;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['lectureSubject'] = lectureSubject;
+    data['lectureDate'] = lectureDate;
+    data['lectureStartTime'] = lectureStartTime;
+    data['lectureEndTime'] = lectureEndTime;
     return data;
   }
 }

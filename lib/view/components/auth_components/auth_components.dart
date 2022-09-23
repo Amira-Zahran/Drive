@@ -9,6 +9,12 @@ Widget defaultField({
     TextFormField(
       controller: controller,
       keyboardType: type,
+      validator: (String? value){
+        if(value!.isEmpty){
+          return 'Please enter your data';
+        }
+        return null;
+      },
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(borderSide: const BorderSide(width: 1,), borderRadius: BorderRadius.circular(10)),
         focusedBorder: OutlineInputBorder(borderSide: const BorderSide(width: 1, color: Colors.deepOrange), borderRadius: BorderRadius.circular(10)),
@@ -22,13 +28,14 @@ Widget passWordField({
   required String text,
   required IconButton iconButton,
   bool? isPassword,
+  FormFieldValidator? validator,
   required TextInputType type
 }){
   return TextFormField(
     controller: controller,
     obscureText: isPassword!,
     keyboardType: type,
-    //validator: validate,
+    validator: validator,
     decoration: InputDecoration(
       //errorText: 'Please Enter Your Password',
       enabledBorder: OutlineInputBorder(borderSide: const BorderSide(width: 1, ), borderRadius: BorderRadius.circular(10),),

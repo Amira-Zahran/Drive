@@ -86,7 +86,7 @@ class Settings extends StatelessWidget {
                       desc:
                       'Are You Sure ?',
                       btnOkOnPress: () {
-                        navigateTo(context, Login());
+                        navigateTo(context, const Login());
                       },
                       btnCancelOnPress: () {
 

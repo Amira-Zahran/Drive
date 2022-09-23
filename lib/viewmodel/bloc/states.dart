@@ -53,3 +53,6 @@ class GetNewsSuccess extends CubitState{}
 
 class GetFAQsSuccess extends CubitState{}
 class GetTermsSuccess extends CubitState{}
+
+
+class GetNoteData extends CubitState{}
