@@ -45,7 +45,7 @@ void hidePass (){
     await DioHelper.postData(url: loginEndPoint, data: json).then((value) {
       loginModel = LoginModel.fromJson(value.data);
       accessToken = loginModel!.data!.accessToken.toString();
-      //accessToken = value.data['data']['accessToken'];
+      accessToken = value.data['data']['accessToken'];
       PreferenceUtils.setString(SharedKeys.apiToken, accessToken);
       emit(LoginSuccessState(loginModel!));
     }).catchError((error){

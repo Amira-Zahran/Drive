@@ -1,80 +1,88 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:odc_drive_design_pattren/model/home/note_model/add_note_model.dart';
-import 'package:odc_drive_design_pattren/viewmodel/bloc/states.dart';
-import '../../../../viewmodel/bloc/home/note/note_cubit.dart';
+import '../../../../model/home/note_model/note_model.dart';
+import '../../../../viewmodel/database/local/SQLITE_DB/database.dart';
 import '../../../components/core/components/components.dart';
 import '../../navigate/bottom_navigation_bar.dart';
 import 'add_note.dart';
 
-class Note extends StatelessWidget {
-  const Note({Key? key}) : super(key: key);
+class Note extends StatefulWidget {
+  Note({Key? key}) : super(key: key);
 
+  @override
+  State<Note> createState() => _NoteState();
+}
+
+class _NoteState extends State<Note> {
+  List<Notes> allNotes = [];
+
+  @override
+  void initState(){
+    SQLHelper.initDb();
+    getAllNotes();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) { return NoteCubit(); },
-      child: BlocConsumer<NoteCubit, CubitState>(
-        listener: (BuildContext context, state) {  },
-        builder: (BuildContext context, Object? state) {
-          NoteCubit myNotes = NoteCubit.get(context);
-          return Scaffold(
+    return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            elevation: 0.0,
+            centerTitle: true,
             backgroundColor: Colors.white,
-            appBar: AppBar(
-              elevation: 0.0,
-              centerTitle: true,
-              backgroundColor: Colors.white,
-              leading: IconButton(onPressed: (){popTo(context, const NavigationBottomBar()); }, icon: const Icon(Icons.arrow_back_ios), color: Colors.black,),
-              title: const Text(
-                'Notes',
-                style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 30,
-                    color: Colors.black),
+            leading: IconButton(onPressed: (){
+              navigateTo(context, const NavigationBottomBar());
+              }, icon: const Icon(Icons.arrow_back_ios), color: Colors.black,),
+            title: const Text(
+              'Notes',
+              style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black),
+            ),
+          ),
+          body: allNotes.length == 0
+              ? const Center(child: Text("There's No Data To Show", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),))
+              : ListView.builder(
+                  shrinkWrap: true,
+                  //physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) => Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(
+                      padding: const EdgeInsetsDirectional.all(5),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(20)),
+                      child: ListTile(
+                        onTap: (){
+                          navigateTo(context, AddNote.withNote(allNotes[index]));
+                        },
+                        leading: const Icon(Icons.note_alt_rounded),
+                        title: Text(allNotes[index].name),
+                        subtitle: Text(allNotes[index].description),
+                      ),
+                    ),
+                  ),
+                  itemCount: allNotes.length,
               ),
-            ),
-            body: myNotes.allNotes.isEmpty
-                ? const Center(child: Text("There's No Data To Show", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),))
-                : SingleChildScrollView(
-                    child: Column(
-                      children: [
-                       ListView.builder(
-                           shrinkWrap: true,
-                           //physics: NeverScrollableScrollPhysics(),
-                           itemBuilder: (context, index) => buildNoteItems(myNotes.allNotes[index]),
-                           itemCount: myNotes.allNotes.length,
-                       )
-                      ],
-                     ),
-                ),
-            floatingActionButton: FloatingActionButton(
-              backgroundColor: Colors.blueGrey[200],
-              onPressed: (){
-                navigateTo(context, const AddNote());
-              },
-              child: const Icon(Icons.add, color: Colors.black,),
-            ),
-          );
-        },
-      ),
-    );
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Colors.blueGrey[200],
+            onPressed: (){
+              navigateTo(context, AddNote());
+            },
+            child: const Icon(Icons.add, color: Colors.black,),
+          ),
+        );
   }
-  Widget buildNoteItems(NoteData data){
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Container(
-        padding: const EdgeInsetsDirectional.all(5),
-        width: double.infinity,
-        decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            color: Colors.grey[100],
-            borderRadius: BorderRadius.circular(20)),
-        child: ListTile(
-          title: Text("${data.title}"),
-          subtitle: Text("${data.description}"),
-        ),
-      ),
-    );
+
+  void getAllNotes()  {
+    //todo get plants from db
+    SQLHelper.getNotes().then((value) {
+      for (int i = 0; i < value.length; i++) {
+        setState(() {
+          allNotes.add(Notes.fromDbMap(value[i]));
+        });
+      }
+    });
   }
 }

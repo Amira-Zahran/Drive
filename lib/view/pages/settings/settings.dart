@@ -5,6 +5,7 @@ import 'package:odc_drive_design_pattren/view/pages/auth/login.dart';
 import 'package:odc_drive_design_pattren/view/pages/settings/our_partners.dart';
 import 'package:odc_drive_design_pattren/viewmodel/bloc/states.dart';
 import '../../../viewmodel/bloc/settings/settings_cubit.dart';
+import '../../../viewmodel/database/local/shared_prefrences/preference_utils.dart';
 import '../../components/core/components/components.dart';
 import 'FAQs.dart';
 import 'support.dart';
@@ -63,7 +64,7 @@ class Settings extends StatelessWidget {
                 Divider(thickness: 0.5, color: Colors.grey,endIndent: MediaQuery.of(context).size.width*.03, indent: MediaQuery.of(context).size.width*.03,),
                 GestureDetector(
                   onTap: (){
-                    navigateTo(context, const Support());
+                    navigateTo(context, Support());
                   },
                   child: const ListTile(
                     leading: Text('Support', style: TextStyle(fontSize: 18, )),
@@ -86,11 +87,13 @@ class Settings extends StatelessWidget {
                       desc:
                       'Are You Sure ?',
                       btnOkOnPress: () {
-                        navigateTo(context, const Login());
+                        //Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Login()), (route) => false);
+                        navigateTo(context, Login());
+                        PreferenceUtils.setString(SharedKeys.apiToken, '');
                       },
-                      btnCancelOnPress: () {
-
-                      },
+                      btnOkText: 'Sure',
+                      btnOkColor: Colors.orange,
+                      btnCancelOnPress: () {},
                       //btnOkIcon: Icons.check_circle,
                     ).show();
                   },

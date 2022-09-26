@@ -16,6 +16,7 @@ const userSectionsEndPoint = "user/student/sections";
 const sectionEndPoint = 'sections';
 
 const examsEndPoint = 'exams';
+const examsIdEndPoint = 'exams/7';
 const userExamsEndPoint = "user/student/exams";
 
 

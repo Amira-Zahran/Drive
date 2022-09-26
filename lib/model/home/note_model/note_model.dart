@@ -1,10 +1,10 @@
-class NoteDetails {
+class Notes {
   String name = "";
   String description = "";
   int id = -1;
-  NoteDetails();
+  Notes();
 
-  NoteDetails.fromDbMap(Map<String, dynamic> map) {
+  Notes.fromDbMap(Map<String, dynamic> map) {
     name = map['title'];
     description = map['description'];
     id = map['id'];

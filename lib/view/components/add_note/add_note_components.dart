@@ -5,11 +5,13 @@ Widget addNoteField({
   TextInputType? type,
   required String text,
   int? lines,
+  required bool readOnly,
 }) =>
     TextFormField(
         controller: controller,
         keyboardType: type,
         maxLines: lines,
+        readOnly: readOnly,
         decoration: InputDecoration(
           alignLabelWithHint: true,
           isDense: true,

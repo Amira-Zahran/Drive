@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:odc_drive_design_pattren/view/components/core/components/components.dart';
@@ -5,14 +8,48 @@ import 'package:odc_drive_design_pattren/viewmodel/bloc/home/home_cubit.dart';
 import 'package:odc_drive_design_pattren/viewmodel/bloc/states.dart';
 import '../navigate/bottom_navigation_bar.dart';
 
-class Sections extends StatelessWidget {
+class Sections extends StatefulWidget {
   Sections({Key? key}) : super(key: key);
 
+  @override
+  State<Sections> createState() => _SectionsState();
+}
+
+class _SectionsState extends State<Sections> {
   ScrollController controller = ScrollController();
+
+  StreamSubscription? connection;
+
+  bool isOffline = false;
+
   @override
   Widget build(BuildContext context) {
+    connection = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      if(result == ConnectivityResult.none){
+        setState(() {
+          isOffline = true;
+        });
+      }else if(result == ConnectivityResult.mobile){
+        setState(() {
+          isOffline = false;
+        });
+      }else if(result == ConnectivityResult.wifi){
+        setState(() {
+          isOffline = false;
+        });
+      }else if(result == ConnectivityResult.ethernet){
+        setState(() {
+          isOffline = false;
+        });
+      }else if(result == ConnectivityResult.bluetooth){
+        setState(() {
+          isOffline = false;
+        });
+      }
+    });
+
     return BlocProvider(
-      create: (BuildContext context) { return HomeCubit()..getData(); },
+      create: (BuildContext context) { return HomeCubit()..getSections(); },
       child: BlocConsumer<HomeCubit, CubitState>(
         listener: (BuildContext context, Object? state) {  },
         builder: (BuildContext context, state) {
@@ -25,9 +62,9 @@ class Sections extends StatelessWidget {
               actions: [IconButton(onPressed: (){}, icon: const Icon(Icons.filter_alt), color: Colors.deepOrange)],
               centerTitle: true,
             ),
-            body: Padding(
+            body: isOffline ? const Center(child: Text('No Internet Connection', style: TextStyle(fontSize: 20),)) : Padding(
               padding: const EdgeInsets.all(20.0),
-              child: mySections.sectionModel == null ? const Center(child: CircularProgressIndicator(color: Colors.deepOrange,),)  : ListView.separated(
+              child: mySections.isLoading == true? const Center(child: CircularProgressIndicator(color: Colors.deepOrange,),)  : ListView.separated(
                 shrinkWrap: true,
                 separatorBuilder: (BuildContext context, int index) { return const SizedBox(height: 10,); },
                 itemCount: mySections.sectionModel!.data!.length,

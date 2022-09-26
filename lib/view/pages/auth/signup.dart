@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:odc_drive_design_pattren/view/components/core/components/components.dart';
 import 'package:odc_drive_design_pattren/view/pages/auth/login.dart';
 import 'package:odc_drive_design_pattren/viewmodel/bloc/states.dart';
-
 import '../../../viewmodel/bloc/auth/sign_up_cubit.dart';
 import '../../components/auth_components/auth_components.dart';
 
@@ -21,8 +20,10 @@ class SignUp extends StatelessWidget {
       child: BlocConsumer<SignUpCubit, CubitState>(
         listener: (BuildContext context, state) {
           if(state is SignUpSuccessState /*|| state is GoogleAuthSucessState || state is FacebookAuthSucessState*/){
-            navigateTo(context, const Login());
-          }
+            navigateTo(context, Login());
+          }/*else {
+            Fluttertoast.showToast(msg:'Please try again');
+          }*/
         },
         builder: (BuildContext context, Object? state) {
           SignUpCubit mySignUp = SignUpCubit.get(context);
@@ -51,10 +52,11 @@ class SignUp extends StatelessWidget {
                             : const Icon(Icons.visibility, color: Colors.deepOrange, size: 20,),),),
                         const SizedBox(height: 12,),
                         passWordField(validator: (value) {
-                          if(mySignUp.phoneController.text != mySignUp.confirmPasswordController.text) {
+                          if(mySignUp.passwordController.text != mySignUp.confirmPasswordController.text) {
                             return "Password Doesn't Match";
+                          }else{
+                            return null;
                           }
-                          return null;
                           }, text: 'Confirm Password', controller: mySignUp.confirmPasswordController, type: TextInputType.visiblePassword, isPassword: mySignUp.isPassword, iconButton: IconButton(onPressed: () => mySignUp.hidePass(), icon: mySignUp.isPassword
                             ? const Icon(Icons.visibility_off, color: Colors.deepOrange, size: 20,)
                             : const Icon(Icons.visibility, color: Colors.deepOrange, size: 20,),),
@@ -71,37 +73,59 @@ class SignUp extends StatelessWidget {
                                 Column(
                                   children: [
                                     const Text('Gender', style: TextStyle(fontWeight: FontWeight.bold),),
-                                    SizedBox(
-                                      width: 95,
+                                    const SizedBox(height: 10,),
+                                    Container(
+                                      padding: const EdgeInsets.only(left: 5),
+                                      alignment: Alignment.center,
+                                      width: 90,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all(
+                                          color: Colors.deepOrange,
+                                          width: 1,
+                                        ),
+                                      ),
                                       child: DropdownButton<String>(
-                                          value: mySignUp.grade.toString(),
-                                          items:  mySignUp.gradeModel?.data?.map((value) {
+                                          borderRadius: BorderRadius.circular(20),
+                                          value: mySignUp.gender,
+                                          items:  mySignUp.genderItems.map((value) {
                                             return DropdownMenuItem<String>(
-                                              value: value.grade,
-                                              child: Text(value.grade!),
+                                              value: value,
+                                              child: Text(value),
                                             );
                                           }).toList(),
-                                          onChanged:(value)=>mySignUp.changeGender(value!) ),
+                                          onChanged:(value)=> mySignUp.changeGender(value!) ),
                                     ),
+
                                   ],
                                 ),
                                 Column(
-                                  children: const [
-                                    Text('University',style: TextStyle(fontWeight: FontWeight.bold)),
-/*
-                                    SizedBox(
-                                      width: 95,
+                                  children: [
+                                    const Text('University',style: TextStyle(fontWeight: FontWeight.bold)),
+                                    const SizedBox(height: 10,),
+                                    Container(
+                                      padding: const EdgeInsets.only(left: 5),
+                                      alignment: Alignment.center,
+                                      width: 90,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all(
+                                          color: Colors.deepOrange,
+                                          width: 1,
+                                        ),
+                                      ),
                                       child: DropdownButton<String>(
-                                          value: mySignUp.grade.toString(),
+                                          borderRadius: BorderRadius.circular(20),
+                                          value: mySignUp.university,
                                           items:  mySignUp.universityItems.map((value) {
                                             return DropdownMenuItem<String>(
-                                              value: value.grade.toString(),
-                                              child: Text(value.grade!.toString()),
+                                              value: value,
+                                              child: Text(value),
                                             );
                                           }).toList(),
-                                          onChanged:(value)=>mySignUp.changeUniversity(value!.toString()) ),
+                                          onChanged:(value)=> mySignUp.changeUniversity(value!) ),
                                     ),
-*/
+
                                   ],
                                 ),
                               ],
@@ -109,25 +133,27 @@ class SignUp extends StatelessWidget {
                             Column(
                               children: [
                                 const Text('Grade',style: TextStyle(fontWeight: FontWeight.bold)),
+                                const SizedBox(height: 10,),
                                 Center(
                                   child: Container(
                                     padding: const EdgeInsets.only(left: 5),
                                     alignment: Alignment.center,
-                                    width: 200,
-                                    height: 30,
+                                    width: 90,
+                                    //height: 30,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(20),
                                       border: Border.all(
                                         color: Colors.deepOrange,
-                                        width: 2,
+                                        width: 1,
                                       ),
                                     ),
                                     child: DropdownButton<String>(
+                                        borderRadius: BorderRadius.circular(20),
                                         value: mySignUp.grade,
-                                        items:  mySignUp.gradeModel?.data?.map((value) {
+                                        items:  mySignUp.gradeItems.map((value) {
                                           return DropdownMenuItem<String>(
-                                            value: value.grade,
-                                            child: Text(value.grade!),
+                                            value: value,
+                                            child: Text(value),
                                           );
                                         }).toList(),
                                         onChanged:(value)=> mySignUp.changeGrade(value!) ),
@@ -164,12 +190,12 @@ class SignUp extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
                               color: Colors.deepOrange,
-                              width: 2,
+                              width: 1,
                             ),
                           ),
                           child: TextButton(
                             onPressed: (){
-                              navigateTo(context, const Login());
+                              navigateTo(context, Login());
                             },
                             child: const Text('Login', style: TextStyle(
                               color: Colors.deepOrange,

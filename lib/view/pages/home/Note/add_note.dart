@@ -1,79 +1,110 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../viewmodel/bloc/home/note/note_cubit.dart';
-import '../../../../viewmodel/database/local/SQFLITE_DB/database.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:odc_drive_design_pattren/model/home/note_model/note_model.dart';
+import 'package:odc_drive_design_pattren/view/components/core/components/components.dart';
+
+import '../../../../viewmodel/database/local/SQLITE_DB/database.dart';
 import '../../../components/add_note/add_note_components.dart';
-import '../../../components/core/components/components.dart';
 import 'note.dart';
 
 
 class AddNote extends StatelessWidget {
-  const AddNote({Key? key}) : super(key: key);
+  AddNote();
+
+  AddNote.withNote(this.noteDetail) {
+    titleController.text = noteDetail!.name;
+    noteController.text = noteDetail!.description;
+  }
+
+  Notes? noteDetail;
+
+  TextEditingController titleController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController noteController = TextEditingController();
 
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) { return NoteCubit(); },
-      child: BlocConsumer(
-        listener: (BuildContext context, state) {  },
-        builder: (BuildContext context, Object? state) {
-          NoteCubit myNotes = NoteCubit.get(context);
-          return Scaffold(
+        dateController.text = DateTime.now().toString();
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            elevation: 0.0,
+            centerTitle: true,
             backgroundColor: Colors.white,
-            appBar: AppBar(
-              elevation: 0.0,
-              centerTitle: true,
-              backgroundColor: Colors.white,
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
-                onPressed: () {
-                  popTo(context, const Note());
-                },
-              ),
-              title: const Text(
-                'Add Note',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
-              ),
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
+              onPressed: () {
+                navigateTo(context, Note());
+                //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Note()));
+              },
             ),
-            body: Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8, top: 30),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    addNoteField(type: TextInputType.text, controller: myNotes.titleController, text: 'Title'),
-                    const SizedBox(height: 25,),
-                    addNoteField(text: 'Date', controller: myNotes.dateController,),
-                    const SizedBox(height: 25,),
-                    addNoteField(type: TextInputType.text, controller: myNotes.noteController, text: 'Note', lines: 10),
-                    const SizedBox(height: 20,),
-                    ElevatedButton(
-                      onPressed: (){
-                        SQLHelper.addNote(myNotes.titleController.text, myNotes.noteController.text, myNotes.dateController.text);
-                        myNotes.getNotesData();
-                        navigateTo(context, const Note());
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blueGrey[200],
-                        fixedSize: const Size(90, 40),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Icon(Icons.add, color: Colors.black, size: 22,),
-                          Text('Add', style: TextStyle(color: Colors.black, letterSpacing: 1, fontWeight: FontWeight.bold),),
-                        ],
-                      ),
+            title: const Text(
+              'Add Note',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            ),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(20),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  addNoteField(type: TextInputType.text, controller: titleController, text: 'Title', readOnly: false),
+                  const SizedBox(height: 25,),
+                  addNoteField(readOnly: true, text: 'Date', controller: dateController,),
+                  const SizedBox(height: 25,),
+                  addNoteField(type: TextInputType.text, controller: noteController, text: 'Note', lines: 10, readOnly: false),
+                  const SizedBox(height: 20,),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: noteDetail == null
+                          ? Colors.blueGrey[200]
+                          : Colors.green,
+                      fixedSize: const Size(90, 40),
+                    ),
+                    onPressed: () {
+                      if (noteDetail == null) {
+                        //todo add plant to db
+                        SQLHelper.addNote(
+                            titleController.text.toString(), noteController.text.toString());
+                      } else {
+                        //todo update plant from ui
+                        SQLHelper.updateNote(noteDetail!.id,
+                            titleController.text.toString(), noteController.text.toString());
+                      }
+                      Fluttertoast.showToast(msg: noteDetail == null ? 'Note Added' : 'Note Updated');
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Note()));
+                    },
+                    child: noteDetail == null
+                        ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: const [
+                            Icon(Icons.add, color: Colors.black, size: 22,),
+                            Text('Add', style: TextStyle(color: Colors.black, letterSpacing: 1, ),),
+                          ],
                     )
-                  ],
-                ),
+                        : const Text("Update")
+                  ),
+                  noteDetail == null
+                      ? const SizedBox()
+                      : ElevatedButton(
+                           style: ElevatedButton.styleFrom(
+                             backgroundColor: Colors.red,
+                           ),
+                           onPressed: () {
+                             //todo delete plant from ui
+                             SQLHelper.deleteNote(noteDetail!.id);
+                             Fluttertoast.showToast(msg: 'Note Deleted');
+                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Note()));
+                           },
+                           child: const Text("Delete"),
+                  ),
+                ],
               ),
             ),
-          );
-        },
-      ),
-    );
+          ),
+        );
   }
 }

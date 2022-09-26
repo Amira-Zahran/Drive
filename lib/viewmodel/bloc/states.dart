@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+
 import '../../model/auth/login_model.dart';
 import '../../model/auth/sign_up_model.dart';
 
@@ -18,10 +20,8 @@ class LoginSuccessState extends CubitState{
 }
 
 class LoginErrorState extends CubitState{
-  final String error;
-
+  final Response? error;
   LoginErrorState(this.error);
-
 }
 
 class RegisterLoadingState extends CubitState{}
@@ -33,10 +33,8 @@ class SignUpSuccessState extends CubitState{
 }
 
 class SignUpErrorState extends CubitState{
-  final String error;
-
+  final Response? error;
   SignUpErrorState(this.error);
-
 }
 
 class ChangeGradeDropdownState extends CubitState {}
@@ -56,3 +54,6 @@ class GetTermsSuccess extends CubitState{}
 
 
 class GetNoteData extends CubitState{}
+
+class InternetConnectedSuccess extends CubitState{}
+class InternetNotConnected extends CubitState{}

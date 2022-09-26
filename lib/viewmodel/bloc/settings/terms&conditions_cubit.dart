@@ -14,17 +14,24 @@ class TermsConditionsCubit extends Cubit<CubitState>{
   InternetConnection? internetConnection;
   TermsModel? termsModel;
 
+  bool isLoading = true;
 
-  Future<void> getTerms()async{
+  Future getTermData() async {
     //if (await internetConnection!.isConnected) {
-      await DioHelper.getData(url: termsEndPoint, token: accessToken).then((value) {
-        termsModel = TermsModel.fromJson(value.data);
-        htmlContent = termsModel!.data!.terms.toString();
-        emit(GetTermsSuccess());
-      });
-   /* }else{
+    emit(GetTermsSuccess());
+    await DioHelper.getData(url: termsEndPoint, token: accessToken).then((value) {
+        if (value.statusCode == 200) {
+          termsModel = TermsModel.fromJson(value.data);
+          print(value.data);
+          isLoading = false;
+          emit(GetTermsSuccess());
+
+        }
+      },
+    );
+    emit(GetTermsSuccess());
+    /* }else{
       OFFLINE_FAILURE_MESSAGE;
     }*/
   }
-
 }

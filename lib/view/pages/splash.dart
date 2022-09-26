@@ -2,10 +2,8 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:odc_drive_design_pattren/view/pages/navigate/bottom_navigation_bar.dart';
 import 'package:odc_drive_design_pattren/view/components/core/components/components.dart';
-import 'package:odc_drive_design_pattren/viewmodel/database/local/shared_prefrences/string/access.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-import 'auth/login.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -15,7 +13,7 @@ class SplashScreen extends StatelessWidget {
     return Scaffold(
         body: Center(
           child: AnimatedSplashScreen(
-            nextScreen: accessToken.isEmpty ? const Login() : const NavigationBottomBar(),
+            nextScreen: /*accessToken.isEmpty ? const Login() : */const NavigationBottomBar(),
             duration: 2200,
             splash: Column(
               children: [

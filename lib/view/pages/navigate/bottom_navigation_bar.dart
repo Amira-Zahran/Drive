@@ -9,10 +9,10 @@ import '../settings/settings.dart';
 class NavigationBottomBar extends StatefulWidget {
   const NavigationBottomBar({Key? key}) : super(key: key);
 
-  static const List<Widget> _widgetOptions = <Widget>[
-     Home(),
-     News(),
-     Settings(),
+  static final List<Widget> _widgetOptions = <Widget>[
+     const Home(),
+     const News(),
+     const Settings(),
   ];
 
   static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.w600);

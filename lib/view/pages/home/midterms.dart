@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:odc_drive_design_pattren/view/components/core/components/components.dart';
@@ -5,11 +8,43 @@ import 'package:odc_drive_design_pattren/viewmodel/bloc/states.dart';
 import '../../../viewmodel/bloc/home/home_cubit.dart';
 import '../navigate/bottom_navigation_bar.dart';
 
-class Midterms extends StatelessWidget {
+class Midterms extends StatefulWidget {
   const Midterms({Key? key}) : super(key: key);
 
   @override
+  State<Midterms> createState() => _MidtermsState();
+}
+
+class _MidtermsState extends State<Midterms> {
+  StreamSubscription? connection;
+
+  bool isOffline = false;
+
+  @override
   Widget build(BuildContext context) {
+    connection = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      if(result == ConnectivityResult.none){
+        setState(() {
+          isOffline = true;
+        });
+      }else if(result == ConnectivityResult.mobile){
+        setState(() {
+          isOffline = false;
+        });
+      }else if(result == ConnectivityResult.wifi){
+        setState(() {
+          isOffline = false;
+        });
+      }else if(result == ConnectivityResult.ethernet){
+        setState(() {
+          isOffline = false;
+        });
+      }else if(result == ConnectivityResult.bluetooth){
+        setState(() {
+          isOffline = false;
+        });
+      }
+    });
     return BlocProvider(
       create: (BuildContext context) { return HomeCubit()..getMidterms(); },
       child: BlocConsumer<HomeCubit, CubitState>(
@@ -25,7 +60,7 @@ class Midterms extends StatelessWidget {
               actions: [IconButton(onPressed: (){}, icon: const Icon(Icons.filter_alt), color: Colors.deepOrange)],
               centerTitle: true,
             ),
-            body: Padding(
+            body: isOffline ? const Center(child: Text('No Internet Connection', style: TextStyle(fontSize: 20),)) : Padding(
               padding: const EdgeInsets.all(20.0),
               child: myMidterms.midtermsModel == null ? const Center(child: CircularProgressIndicator(color: Colors.deepOrange,),)  : ListView.separated(
                 shrinkWrap: true,
